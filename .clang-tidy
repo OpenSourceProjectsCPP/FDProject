@@ -1,0 +1,22 @@
+# Checks: '*'
+
+# Curated clang-tidy checks: enable analyzers and useful groups,
+# explicitly disable checks that rewrite function signatures.
+
+Checks: >
+  clang-analyzer-*,
+  bugprone-*,
+  performance-*,
+  readability-*,
+  portability-*,
+  cppcoreguidelines-*,
+  modernize-*,
+
+  -modernize-use-trailing-return-type,
+  -fuchsia-trailing-return
+
+# Optional: don't auto-apply fixes for everything at once.
+# Run analysis-only first, then run fixes selectively.
+WarningsAsErrors: ''
+HeaderFilterRegex: '.*'
+FormatStyle: none
