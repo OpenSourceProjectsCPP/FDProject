@@ -1,28 +1,28 @@
 #pragma once
-#include "core/lockfree_queue.h"
-#include "features/feature_engine.h"
-#include <thread>
 #include <atomic>
 #include <iostream>
+#include <thread>
 
+#include "core/lockfree_queue.h"
+#include "features/feature_engine.h"
 
 class Pipeline {
-public:
-	explicit Pipeline(SPSCQueue<Transaction, 1024>& q)
-		: queue_(q) {
-	}
+ public:
+  inline static std::mutex log_mutex_;
 
+ public:
+  explicit Pipeline(SPSCQueue<Transaction, 1024>& q, size_t workers = 4)
+      : queue_(q), worker_count_(workers) {}
 
-	void start();
-	void stop();
+  void start();
+  void stop();
 
+ private:
+  void worker_loop(size_t worker_id);
 
-private:
-	void run();
-
-
-	FeatureEngine feature_engine_;
-	std::atomic<bool> running_{ false };
-	std::thread worker_;
-	SPSCQueue<Transaction, 1024>& queue_;
+  FeatureEngine feature_engine_;
+  std::atomic<bool> running_{false};
+  std::vector<std::thread> workers_;
+  size_t worker_count_{0};
+  SPSCQueue<Transaction, 1024>& queue_;
 };
