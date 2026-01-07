@@ -1,29 +1,23 @@
 #pragma once
 
+#include <atomic>
+#include <thread>
+
 #include "common/types.h"
 #include "core/lockfree_queue.h"
-#include <thread>
-#include <atomic>
-
+#include "core/pipeline.h"
 
 class TransactionIngress {
-public:
-	explicit TransactionIngress(SPSCQueue<Transaction, 1024>& q)
-		: queue_(q) {
-	}
+ public:
+  explicit TransactionIngress(Pipeline& p) : pipeline_(p) {}
 
+  void start();
+  void stop();
 
-	void start();
-	void stop();
+ private:
+  void run();
 
-
-private:
-	void run();
-
-
-	std::atomic<bool> running_{ false };
-	std::thread worker_;
-	SPSCQueue<Transaction, 1024>& queue_;
+  std::atomic<bool> running_{false};
+  std::thread worker_;
+  Pipeline& pipeline_;
 };
-
-

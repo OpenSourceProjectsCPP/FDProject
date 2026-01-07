@@ -28,9 +28,10 @@ void TransactionIngress::run() {
             std::chrono::system_clock::now().time_since_epoch())
             .count());
 
-    if (!queue_.push(txn)) {
+    /*if (!queue_.push(txn)) {
       std::cerr << "Ingress queue full, dropping txn\n";
-    }
+    }*/
+    pipeline_.submit(txn);
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   }
 }

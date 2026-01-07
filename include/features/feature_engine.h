@@ -7,6 +7,7 @@
 #include "common/types.h"
 #include "features/card_state.h"
 
+// Sharded FeatureEngine for multi-thread scalability
 class FeatureEngine {
  public:
   FeatureVector extract(const Transaction& txn);
