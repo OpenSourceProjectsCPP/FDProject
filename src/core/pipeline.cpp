@@ -38,7 +38,17 @@ void Pipeline::worker_loop(size_t worker_id) {
     if (!opt) continue;
 
     const Transaction& txn = *opt;
+    auto start = std::chrono::steady_clock::now();
+
     auto features = feature_engine.extract(txn);
+    auto rules = rule_engine_.evaluate(features);
+    int risk_score = 0;
+    for (const auto& r : rules) risk_score += r.score;
+
+    auto end = std::chrono::steady_clock::now();
+    auto latency =
+        std::chrono::duration_cast<std::chrono::microseconds>(end - start)
+            .count();
 
     {
       std::lock_guard<std::mutex> lock(log_mutex_);
@@ -46,7 +56,8 @@ void Pipeline::worker_loop(size_t worker_id) {
                 << "Txn " << txn.txn_id << " Card=" << txn.card_id
                 << " f1=" << features.get("txn_count_1min")
                 << " f5=" << features.get("txn_count_5min")
-                << " amt5=" << features.get("amount_sum_5min") << '\n';
+                << " amt5=" << features.get("amount_sum_5min")
+                << " risk=" << risk_score << " latency=" << latency << '\n';
     }
   }
 }

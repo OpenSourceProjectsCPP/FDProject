@@ -27,6 +27,9 @@
     <ClCompile Include="src\ingress\transaction_ingress.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\rules\rule_engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\common\feature_vector.h">
@@ -48,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ingress\transaction_ingress.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rules\rule_engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

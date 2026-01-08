@@ -131,6 +131,7 @@
     <ClCompile Include="src\features\feature_engine.cpp" />
     <ClCompile Include="src\ingress\transaction_ingress.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\rules\rule_engine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\common\feature_vector.h" />
@@ -140,6 +141,7 @@
     <ClInclude Include="include\features\card_state.h" />
     <ClInclude Include="include\features\feature_engine.h" />
     <ClInclude Include="include\ingress\transaction_ingress.h" />
+    <ClInclude Include="include\rules\rule_engine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
